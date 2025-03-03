@@ -7,7 +7,6 @@ export default function Annet() {
     <>
       {/* <Header /> */}
 
-
       <NavBar />
     </>
   );

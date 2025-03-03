@@ -22,15 +22,9 @@ export const weekendMeals = defineType({
               name: "day",
               type: "string",
               title: "Day",
-                description: "Dag i uken",
+              description: "Dag i uken",
               options: {
-                list: [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                ],
+                list: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
               },
             },
             {
@@ -45,7 +39,7 @@ export const weekendMeals = defineType({
   ],
   preview: {
     select: {
-      title: 'weekNumber',
+      title: "weekNumber",
     },
     prepare(selection) {
       const { title } = selection;
@@ -53,5 +47,5 @@ export const weekendMeals = defineType({
         title: `Uke ${title}`,
       };
     },
-  }
+  },
 });
