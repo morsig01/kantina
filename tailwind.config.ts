@@ -10,7 +10,13 @@ export default {
     extend: {
       colors: {
         background: "var(--background)",
-        foreground: "var(--foreground)",
+        navbar: "var(--navbar)",
+        text: "var(--text)",
+        content: "var(--content)",
+        selection: "var(--selection)",
+        prize: "var(--prize)",
+        dot: "var(--dot)",
+        "dot-selected": "var(--dot-selected)",
       },
     },
   },
