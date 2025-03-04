@@ -2,15 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Calendar, ShoppingBasket, User } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Home, Calendar, ShoppingBasket, User, Sun, Moon } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [showPopup, setShowPopup] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const popupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Initialiser tema basert på lagret verdi eller systempreferanse
     const savedTheme =
       localStorage.getItem("theme") ||
       (window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -18,6 +20,19 @@ export default function Navbar() {
         : "light");
     document.documentElement.setAttribute("data-theme", savedTheme);
     setDarkMode(savedTheme === "dark");
+
+    // Lukk popup når man klikker utenfor
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
+        setShowPopup(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const toggleTheme = () => {
@@ -39,9 +54,7 @@ export default function Navbar() {
         <Link
           key={href}
           href={href}
-          className={`flex items-center gap-2 p-2 rounded-xl hover:bg-selection transition-all ${
-            pathname === href ? "bg-selection" : ""
-          }`}
+          className={`flex items-center gap-2 p-2 rounded-xl hover:bg-selection transition-all ${pathname === href ? "bg-selection" : ""}`}
         >
           <Icon size={24} />
           {pathname === href && (
@@ -52,24 +65,31 @@ export default function Navbar() {
 
       <button
         onClick={() => setShowPopup(!showPopup)}
-        className={`flex items-center gap-2 p-2 rounded-xl hover:bg-selection transition-all ${
-          showPopup ? "bg-selection" : ""
-        }`}
+        className={`flex items-center gap-2 p-2 rounded-xl hover:bg-selection transition-all ${showPopup ? "bg-selection" : ""}`}
       >
         <User size={24} />
-        {showPopup && <span className="text-sm text-text">Bruker</span>}
       </button>
 
       {showPopup && (
-        <div className="absolute bottom-16 right-4 bg-navbar p-4 rounded-2xl shadow-lg flex flex-col gap-2">
+        <div
+          ref={popupRef}
+          className="absolute bottom-16 right-4 bg-navbar p-4 rounded-2xl shadow-lg flex flex-col gap-4"
+        >
           <button className="text-text hover:bg-selection p-2 rounded-lg">
             Innstillinger
           </button>
+
           <button
             onClick={toggleTheme}
-            className="text-text hover:bg-selection p-2 rounded-lg"
+            className="p-2 rounded-lg flex justify-center"
           >
-            {darkMode ? "Lys modus" : "Mørk modus"}
+            <div className="relative w-14 h-8 flex items-center bg-selection rounded-full p-1 transition-all">
+              <div
+                className={`absolute w-6 h-6 bg-navbar rounded-full flex items-center justify-center transition-transform duration-300 ${darkMode ? "translate-x-6" : "translate-x-0"}`}
+              >
+                {darkMode ? <Moon size={16} /> : <Sun size={16} />}
+              </div>
+            </div>
           </button>
         </div>
       )}
