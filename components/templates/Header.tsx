@@ -9,9 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import DagensMeny from "./Dagens/DagensMeny";
-import DagensContent from "./Dagens/DagensContent";
-import { menuData } from "@/components/data/menuData";
+import { menuData } from "@/data/menuData";
 
 export default function Header() {
   const pathname = usePathname();
@@ -74,6 +72,7 @@ export default function Header() {
                 alt="DagensMeny"
                 className="w-full h-auto object-cover rounded-b-2xl"
               />
+
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -98,19 +97,6 @@ export default function Header() {
                   </div>
                 </PopoverContent>
               </Popover>
-
-              <DagensMeny selectedDay={selectedDay} meal={selectedMeal.meal} />
-
-              {pathname !== "/" && (
-                <DagensContent
-                  mealData={{
-                    allergener: selectedMeal.allergener,
-                    porsjon: selectedMeal.portionSize,
-                    beskrivelse: selectedMeal.description,
-                    ingredienser: selectedMeal.ingredients,
-                  }}
-                />
-              )}
             </>
           )}
         </>
