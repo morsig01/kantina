@@ -11,6 +11,7 @@ export default {
       colors: {
         background: "var(--background)",
         navbar: "var(--navbar)",
+        header: "var(--header)",
         text: "var(--text)",
         content: "var(--content)",
         selection: "var(--selection)",

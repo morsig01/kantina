@@ -6,6 +6,7 @@
 :root[data-theme="light"] {
   --background: #f1f1f3;
   --navbar: #e3e3e8;
+  --header: rgba(255, 255, 255, 0.7);
   --text: #082126;
 
   --content: #ffffff;
@@ -20,6 +21,7 @@
 :root[data-theme="dark"] {
   --background: #151518;
   --navbar: #1b1b20;
+  --header: rgba(27, 27, 32, 0.7);
   --text: #ededed;
 
   --content: #1b1b20;

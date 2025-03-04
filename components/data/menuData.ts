@@ -1,0 +1,48 @@
+export const menuData = [
+  {
+    day: "Mandag",
+    img: "/images/mat.png",
+    meal: "Kyllingburger",
+    allergener: ["Hvetegluten", "Egg", "Melk", "Soya", "Sennep"],
+    portionSize: "Medium",
+    description: "Saftig kyllingburger med sprøtt brød og friske grønnsaker.",
+    ingredients: ["Kylling", "Burgerbrød", "Salat", "Dressing"],
+  },
+  {
+    day: "Tirsdag",
+    img: "/images/fish-and-chips.jpg",
+    meal: "Fish & Chips",
+    allergener: ["Hvetegluten", "Egg", "Sennep", "Melk"],
+    portionSize: "Stor",
+    description: "Klassisk fish & chips med sprø panering og pommes frites.",
+    ingredients: ["Torsk", "Mel", "Egg", "Poteter", "Remulade"],
+  },
+  {
+    day: "Onsdag",
+    img: "/images/kremet-pasta-med-kylling.png",
+    meal: "Pasta med kremet kyllingsaus",
+    allergener: ["Hvetegluten", "Melk"],
+    portionSize: "Stor",
+    description: "Italiensk pasta med kremet saus og kylling.",
+    ingredients: ["Pasta", "Kylling", "Fløte", "Parmesan"],
+  },
+  {
+    day: "Torsdag",
+    img: "/images/tacobaguett.jpg",
+    meal: "Tacobaguett",
+    allergener: ["Hvetegluten", "Melk"],
+    portionSize: "Medium",
+    description: "Smakfull tacobaguett med krydret kjøttdeig og ost.",
+    ingredients: ["Baguett", "Kjøttdeig", "Ost", "Salat"],
+  },
+  {
+    day: "Fredag",
+    img: "/images/wok.jpg",
+    meal: "Wok med nudler, kylling og grønnsaker",
+    allergener: ["Hvetegluten", "Fisk", "Egg", "Soya", "Sesam", "Skalldyr"],
+    portionSize: "Stor",
+    description:
+      "Asiatisk inspirert wok med nudler, kylling og sprø grønnsaker.",
+    ingredients: ["Nudler", "Kylling", "Grønnsaker", "Soyasaus"],
+  },
+];
