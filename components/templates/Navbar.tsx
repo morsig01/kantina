@@ -3,11 +3,29 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Calendar, ShoppingBasket, User } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [showPopup, setShowPopup] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedTheme =
+      localStorage.getItem("theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light");
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    setDarkMode(savedTheme === "dark");
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = darkMode ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    setDarkMode(!darkMode);
+  };
 
   const links = [
     { href: "/", label: "Hjem", icon: Home },
@@ -26,7 +44,9 @@ export default function Navbar() {
           }`}
         >
           <Icon size={24} />
-          {pathname === href && <span className="text-sm text-text">{label}</span>}
+          {pathname === href && (
+            <span className="text-sm text-text">{label}</span>
+          )}
         </Link>
       ))}
 
@@ -42,8 +62,15 @@ export default function Navbar() {
 
       {showPopup && (
         <div className="absolute bottom-16 right-4 bg-navbar p-4 rounded-2xl shadow-lg flex flex-col gap-2">
-          <button className="text-text hover:bg-selection p-2 rounded-lg">Innstillinger</button>
-          <button className="text-text hover:bg-selection p-2 rounded-lg">Mørk/Lys modus</button>
+          <button className="text-text hover:bg-selection p-2 rounded-lg">
+            Innstillinger
+          </button>
+          <button
+            onClick={toggleTheme}
+            className="text-text hover:bg-selection p-2 rounded-lg"
+          >
+            {darkMode ? "Lys modus" : "Mørk modus"}
+          </button>
         </div>
       )}
     </nav>
