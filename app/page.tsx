@@ -1,25 +1,20 @@
+"use client";
+
+import { useState } from "react";
 import Header from "@/components/templates/Header";
 import DagensMeny from "@/components/templates/Dagens/DagensMeny";
 import Content from "@/components/templates/Content";
 import NavBar from "@/components/templates/Navbar";
 import { menuData } from "@/data/menuData";
+import { getToday } from "@/data/dateUtils";
 
 export default function Home() {
-  const today = new Date().getDay();
-  const weekdays = [
-    "Søndag",
-    "Mandag",
-    "Tirsdag",
-    "Onsdag",
-    "Torsdag",
-    "Fredag",
-    "Lørdag",
-  ];
-  const selectedMeal = menuData.find((item) => item.day === weekdays[today]);
+  const [selectedDay, setSelectedDay] = useState<string>(getToday());
+  const selectedMeal = menuData.find((item) => item.day === selectedDay);
 
   return (
     <>
-      <Header />
+      <Header selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
       {selectedMeal && (
         <DagensMeny selectedDay={selectedMeal.day} meal={selectedMeal.meal} />
       )}
