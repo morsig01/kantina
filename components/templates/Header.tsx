@@ -1,3 +1,4 @@
+// components/Header.tsx
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
@@ -18,17 +19,19 @@ interface HeaderProps {
 export default function Header({ selectedDay, setSelectedDay }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
+
+  const showBackButton = ["/ukemeny", "/varer"].includes(pathname);
   const selectedMeal = menuData.find((item) => item.day === selectedDay);
 
   return (
-    <div className="relative">
-      {(pathname === "/ukemeny" || pathname === "/varer") && (
+    <header className="relative">
+      {showBackButton && (
         <Button
           size="icon"
-          className="absolute top-3 left-3 z-50 rounded-xl transition-transform active:scale-95 bg-header backdrop-blur-sm text-text"
+          className="absolute left-3 top-3 z-50 rounded-xl bg-header text-text backdrop-blur-sm transition-transform active:scale-95"
           onClick={() => router.back()}
         >
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className="w-7 h-7" />
         </Button>
       )}
 
@@ -37,16 +40,19 @@ export default function Header({ selectedDay, setSelectedDay }: HeaderProps) {
           <img
             src={selectedMeal.img}
             alt="DagensMeny"
-            className="w-full h-auto object-cover rounded-b-2xl"
+            className="w-full h-auto rounded-b-2xl object-cover"
           />
 
           <Popover>
             <PopoverTrigger asChild>
-              <Button size="icon" className="absolute top-3 right-3">
-                <Calendar className="w-10 h-10" />
+              <Button
+                size="icon"
+                className="absolute right-3 top-3 z-50 rounded-xl bg-header text-text backdrop-blur-sm transition-transform active:scale-95"
+              >
+                <Calendar className="w-8 h-8" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-40 p-2">
+            <PopoverContent className="w-40 border-none bg-header p-2 backdrop-blur-sm">
               <div className="grid gap-2">
                 {menuData.map((item) => (
                   <Button
@@ -62,6 +68,6 @@ export default function Header({ selectedDay, setSelectedDay }: HeaderProps) {
           </Popover>
         </>
       )}
-    </div>
+    </header>
   );
 }
