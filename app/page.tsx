@@ -16,7 +16,11 @@ export default function Home() {
     <>
       <Header selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
       {selectedMeal && (
-        <DagensMeny selectedDay={selectedMeal.day} meal={selectedMeal.meal} />
+        <DagensMeny
+          selectedDay={selectedMeal.day}
+          meal={selectedMeal.meal}
+          setSelectedDay={setSelectedDay}
+        />
       )}
       <Content />
       <NavBar />

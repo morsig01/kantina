@@ -8,6 +8,13 @@ import DagensContent from "@/components/templates/Dagens/DagensContent";
 import NavBar from "@/components/templates/Navbar";
 import { menuData } from "@/data/menuData";
 import { getToday } from "@/data/dateUtils";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "@/components/ui/carousel";
 
 export default function UkeMeny() {
   const [selectedDay, setSelectedDay] = useState(getToday());
@@ -32,21 +39,43 @@ export default function UkeMeny() {
   });
 
   return (
-    <div {...swipeHandlers} style={{ touchAction: "pan-y" }}>
+    <div
+      {...swipeHandlers}
+      style={{
+        touchAction: "pan-y",
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+      }}
+    >
       <Header selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
-      {selectedMeal && (
-        <>
-          <DagensMeny selectedDay={selectedMeal.day} meal={selectedMeal.meal} />
-          <DagensContent
-            mealData={{
-              allergener: selectedMeal.allergener,
-              porsjon: selectedMeal.portionSize,
-              beskrivelse: selectedMeal.description,
-              ingredienser: selectedMeal.ingredients,
-            }}
-          />
-        </>
-      )}
+      <div style={{ flex: 1, overflow: "hidden" }}>
+        {selectedMeal && (
+          <Carousel>
+            <CarouselContent>
+              {menuData.map((item) => (
+                <CarouselItem key={item.day}>
+                  <DagensMeny
+                    selectedDay={selectedMeal.day}
+                    meal={selectedMeal.meal}
+                    setSelectedDay={setSelectedDay}
+                  />
+                  <DagensContent
+                    mealData={{
+                      allergener: item.allergener,
+                      porsjon: item.portionSize,
+                      beskrivelse: item.description,
+                      ingredienser: item.ingredients,
+                    }}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        )}
+      </div>
       <NavBar />
     </div>
   );
