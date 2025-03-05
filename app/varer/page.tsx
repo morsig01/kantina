@@ -1,5 +1,6 @@
-// import Header from "@/components/templates/Header";
+"use client";
 
+import { useState } from "react";
 import Header from "@/components/templates/Header";
 import NavBar from "@/components/templates/Navbar";
 import { VareKort } from "./VareKort";
@@ -10,9 +11,11 @@ const alleVarer = [
 ];
 
 export default function Annet() {
+  const [selectedDay, setSelectedDay] = useState<string>("");
+
   return (
     <>
-      <Header />
+      <Header selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
 
       <NavBar />
 
