@@ -1,7 +1,7 @@
 import { defineType } from "sanity";
 
-export const weekendMeals = defineType({
-  name: "weekendMeals",
+export const weekMeals = defineType({
+  name: "weekMeals",
   type: "document",
   title: "Ukens måltider",
   fields: [
@@ -21,10 +21,16 @@ export const weekendMeals = defineType({
             {
               name: "day",
               type: "string",
-              title: "Day",
-              description: "Dag i uken",
+              title: "Dag",
+                description: "Dag i uken",
               options: {
-                list: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                list: [
+                  "Mandag",
+                  "Tirsdag",
+                  "Onsdag",
+                  "Torsdag",
+                  "Fredag",
+                ],
               },
             },
             {

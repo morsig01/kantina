@@ -1,41 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { Calendar, Home, ShoppingBasket } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
+import { Home, Calendar, ShoppingBasket, User } from "lucide-react";
+import { useState } from "react";
 
-const NavBar = () => {
+export default function Navbar() {
+  const pathname = usePathname();
+
+  const links = [
+    { href: "/", label: "Hjem", icon: Home },
+    { href: "/ukemeny", label: "Uke", icon: Calendar },
+    { href: "/varer", label: "Varer", icon: ShoppingBasket },
+  ];
+
   return (
-    <div className="fixed bottom-0 left-0 right-0 flex justify-around bg-white py-3 shadow-md">
-      <Link href="/">
-        <Button
-          variant="ghost"
-          className="flex flex-col items-center text-gray-600"
+    <nav className="fixed bottom-0 left-0 right-0 bg-navbar h-20 flex rounded-t-2xl shadow-md bg-neutral-300">
+      {links.map(({ href, label, icon: Icon }, index) => (
+        <Link
+          key={href}
+          href={href}
+          className={`flex items-center justify-center flex-1 hover:bg-neutral-400 transition-all ${
+            pathname === href ? "bg-neutral-400" : ""
+          } ${index === 0 ? "rounded-tl-2xl" : ""} ${
+            index === links.length - 1 ? "rounded-tr-2xl" : ""
+          }`}
         >
-          <Home className="w-10 h-10" />
-          <span className="text-sm">Hjem</span>
-        </Button>
-      </Link>
-      <Link href="/ukemeny">
-        <Button
-          variant="ghost"
-          className="flex flex-col items-center text-gray-600"
-        >
-          <Calendar className="w-10 h-10" />
-          <span className="text-sm">Uke</span>
-        </Button>
-      </Link>
-      <Link href="/annet">
-        <Button
-          variant="ghost"
-          className="flex flex-col items-center text-gray-600"
-        >
-          <ShoppingBasket className="w-10 h-10" />
-          <span className="text-sm">Annet</span>
-        </Button>
-      </Link>
-    </div>
+          <Icon size={24} />
+        </Link>
+      ))}
+    </nav>
   );
-};
-
-export default NavBar;
+}
