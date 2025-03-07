@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { menuData } from "@/data/menuData";
 import { useEffect, useState } from "react";
-import { fetchWeeks, fetchWeekContent } from "@/sanity/lib/client";
+import { fetchWeeks, client } from "@/sanity/lib/client";
 
 interface HeaderProps {
   selectedDay: string;
@@ -53,14 +53,11 @@ export default function Header({
   }, []);
 
   const fetchContentForWeek = async (week: number) => {
-    const content = await fetchWeekContent(week);
-    // Determine which content to use based on the current day
-    const isWeekend = ["Saturday", "Sunday"].includes(selectedDay);
-    const mealContent = isWeekend ? content.weekendMeals : content.weekMeals;
-
-    setWeekMeals(mealContent);
+    const query = `*[_type == "weekMeals" && weekNumber == ${week}][0]`;
+    const content = await client.fetch(query);
+    setWeekMeals(content);
     if (onWeekChange) {
-      onWeekChange(mealContent);
+      onWeekChange(content);
     }
   };
 
@@ -69,7 +66,7 @@ export default function Header({
       await fetchContentForWeek(week);
     };
     updateContentForWeek(selectedWeek);
-  }, [selectedWeek, selectedDay, onWeekChange]);
+  }, [selectedWeek, onWeekChange]);
 
   return (
     <header className="relative z">
