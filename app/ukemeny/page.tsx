@@ -57,7 +57,6 @@ export default function UkeMeny() {
                 <CarouselItem key={item.day}>
                   <DagensMeny
                     selectedDay={selectedMeal.day}
-                    meal={selectedMeal.meal}
                     setSelectedDay={setSelectedDay}
                   />
                   <DagensContent

@@ -18,7 +18,6 @@ export default function Home() {
       {selectedMeal && (
         <DagensMeny
           selectedDay={selectedMeal.day}
-          meal={selectedMeal.meal}
           setSelectedDay={setSelectedDay}
         />
       )}
