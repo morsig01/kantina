@@ -118,9 +118,7 @@ export default function DagensContent({ mealData }: DagensContentProps) {
             className="h-2 w-2 rounded-full transition-all"
             style={{
               backgroundColor:
-                index === selectedIndex
-                  ? "var(--dot-selected)"
-                  : "var(--dot)",
+                index === selectedIndex ? "var(--dot-selected)" : "var(--dot)",
               width: index === selectedIndex ? "1rem" : "0.5rem",
             }}
             onClick={() => scrollTo(index)}
