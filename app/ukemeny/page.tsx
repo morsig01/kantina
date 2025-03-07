@@ -14,10 +14,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface SanityImage {
+  asset: {
+    _ref: string;
+  };
+}
+
 interface Meal {
   title: string;
   price: number;
-  image?: any;
+  image?: SanityImage;
   allergens?: string[];
 }
 
@@ -38,7 +44,6 @@ export default function WeeklyMenu() {
   const [error, setError] = useState<string | null>(null);
   const [currentDay, setCurrentDay] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
 
@@ -78,7 +83,7 @@ export default function WeeklyMenu() {
     const fetchWeeks = async () => {
       try {
         const weeksData = await client.fetch(getAllWeeksQuery);
-        const weekNumbers = weeksData.map((w: any) => w.weekNumber);
+        const weekNumbers = weeksData.map((w: { weekNumber: number }) => w.weekNumber);
         setWeeks(weekNumbers);
         setSelectedWeek(weekNumbers[0]);
       } catch (err) {
@@ -168,7 +173,7 @@ export default function WeeklyMenu() {
           >
             {days.map((day) => {
               const dayMeal = weekMeals?.meals?.find(
-                (meal: any) => meal.day === day
+                (meal: DayMeal) => meal.day === day
               );
               
               return (

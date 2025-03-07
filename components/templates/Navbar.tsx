@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Calendar, ShoppingBasket, User } from "lucide-react";
-import { useState } from "react";
+import { Home, Calendar, ShoppingBasket } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -16,7 +15,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-navbar h-20 flex rounded-t-2xl shadow-md bg-neutral-300">
-      {links.map(({ href, label, icon: Icon }, index) => (
+      {links.map(({ href, icon: Icon }, index) => (
         <Link
           key={href}
           href={href}
