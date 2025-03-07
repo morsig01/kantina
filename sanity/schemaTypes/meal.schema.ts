@@ -34,16 +34,16 @@ export const meals = defineType({
       options: {
         list: [
           {title: "Hvetegluten", value: "gluten"},
-          {title: "Melk", value: "milk"},
+          {title: "Melk", value: "melk"},
           {title: "Egg", value: "egg"},
-          {title: "Soya", value: "soy"},
-          {title: "Nøtter", value: "nuts"},
-          {title: "Peanøtter", value: "peanuts"},
-          {title: "Fisk", value: "fish"},
-          {title: "Skalldyr", value: "shellfish"},
-          {title: "Sennep", value: "mustard"},
-          {title: "Selleri", value: "celery"},
-          {title: "Sesam", value: "sesame"},
+          {title: "Soya", value: "soya"},
+          {title: "Nøtter", value: "nætter"},
+          {title: "Peanøtter", value: "peanøtter"},
+          {title: "Fisk", value: "fisk"},
+          {title: "Skalldyr", value: "skalldyr"},
+          {title: "Sennep", value: "sennep"},
+          {title: "Selleri", value: "selleri"},
+          {title: "Sesam", value: "sesam"},
         ]
       }
     }
