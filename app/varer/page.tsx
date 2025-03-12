@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { client } from "@/sanity/lib/client";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star, Filter, SortAsc } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Header from "@/components/templates/Header";
+import {
+  Star,
+  Filter,
+  ArrowDownWideNarrow,
+  ArrowUpWideNarrow,
+} from "lucide-react";
 import NavBar from "@/components/templates/Navbar";
 import {
   Carousel,
@@ -13,40 +17,62 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 
-const varer = [
-  { name: "Taco", price: "50kr,", favorite: true, image: "/images/taco.jpg" },
-  {
-    name: "Hamburger",
-    price: "50kr,",
-    favorite: true,
-    image: "/images/hamburger.jpg",
-  },
-  {
-    name: "Pasta",
-    price: "50kr,",
-    favorite: false,
-    image: "/images/pasta.jpg",
-  },
-  {
-    name: "Biff i pita",
-    price: "50kr,",
-    favorite: false,
-    image: "/images/biffipita.jpg",
-  },
-];
+interface Vare {
+  name: string;
+  price: number;
+  favorite: boolean;
+  image: string;
+}
 
 export default function VarerPage() {
+  const [varer, setVarer] = useState<Vare[]>([]);
   const [search, setSearch] = useState("");
-  const [selectedDay, setSelectedDay] = useState("");
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState<string>("name");
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const filteredVarer = varer.filter((vare) =>
-    vare.name.toLowerCase().includes(search.toLowerCase())
-  );
+  useEffect(() => {
+    async function fetchVarer() {
+      const data = await client.fetch(
+        `*[_type == "vare"]{
+          name,
+          price,
+          favorite,
+          "image": image.asset->url
+        }`
+      );
+      setVarer(data);
+    }
+    fetchVarer();
+  }, []);
+
+  const toggleFavorite = (vare: Vare) => {
+    setFavorites((prev) =>
+      prev.includes(vare.name)
+        ? prev.filter((fav) => fav !== vare.name)
+        : [...prev, vare.name]
+    );
+  };
+
+  const favoriteVarer = varer.filter((vare) => favorites.includes(vare.name));
+
+  const filteredVarer = varer
+    .filter((vare) => vare.name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => {
+      if (sortBy === "price") return a.price - b.price;
+      return a.name.localeCompare(b.name);
+    });
+
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  const toggleSort = () => {
+    setSortBy((prev) => (prev === "name" ? "price" : "name"));
+    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
 
   return (
     <>
-      <Header selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
-      <div className="p-4">
+      <div className="p-4 mt-5">
         <Input
           placeholder="Søk etter varer..."
           value={search}
@@ -54,12 +80,11 @@ export default function VarerPage() {
           className="mb-4"
         />
 
-        <h2 className="text-lg font-semibold mb-2">Dinne Favoriter</h2>
-        <Carousel className="w-full overflow-hidden pb-2">
-          <CarouselContent>
-            {filteredVarer
-              .filter((vare) => vare.favorite)
-              .map((vare) => (
+        <h2 className="text-lg font-semibold mb-2">Dine Favoritter</h2>
+        {favoriteVarer.length > 0 ? (
+          <Carousel className="w-full overflow-hidden pb-2">
+            <CarouselContent>
+              {favoriteVarer.map((vare) => (
                 <CarouselItem
                   key={vare.name}
                   className="basis-1/3 flex-shrink-0"
@@ -68,47 +93,96 @@ export default function VarerPage() {
                     <img
                       src={vare.image}
                       alt={vare.name}
-                      className="w-full h-24 object-cover"
+                      className="w-full h-40 object-cover"
                     />
-                    <CardContent className="p-2 text-center bg-gradient-to-t from-black/60 to-transparent absolute bottom-0 w-full">
+                    <CardContent className="p-2 text-center absolute bottom-0 w-full bg-gradient-to-t from-black/70 to-transparent">
                       <p className="text-sm font-medium text-white">
                         {vare.name}
                       </p>
-                      <p className="text-xs text-gray-300">{vare.price}</p>
-                      <Star className="absolute top-2 right-2 text-yellow-400 w-4 h-4" />
+                      <p className="text-xs text-gray-300">{vare.price}kr,-</p>
+                      <Star
+                        className="absolute top-2 right-2 text-yellow-400 w-5 h-5 cursor-pointer"
+                        onClick={() => toggleFavorite(vare)}
+                      />
                     </CardContent>
                   </Card>
                 </CarouselItem>
               ))}
-          </CarouselContent>
-        </Carousel>
+            </CarouselContent>
+          </Carousel>
+        ) : (
+          <p className="text-gray-500 mb-4">Ingen favoritter funnet.</p>
+        )}
 
-        <div className="flex gap-2 my-4">
-          <Button variant="outline" size="icon">
-            <Filter className="w-5 h-5" />
-          </Button>
-          <Button variant="outline" size="icon">
-            <SortAsc className="w-5 h-5" />
-          </Button>
+        <div className="flex gap-4 mb-4 relative">
+          <button
+            className="p-2 rounded-xl bg-navbar shadow-md"
+            onClick={() => setShowDropdown((prev) => !prev)}
+          >
+            <Filter className="w-6 h-6" />
+          </button>
+
+          {showDropdown && (
+            <div className="absolute top-12 left-0 bg-content shadow-lg rounded-lg p-2 z-50">
+              <button
+                className="block w-full text-left p-2 hover:bg-selection"
+                onClick={() => {
+                  setSortBy("name");
+                  setShowDropdown(false);
+                }}
+              >
+                Sorter etter navn
+              </button>
+              <button
+                className="block w-full text-left p-2 hover:bg-selection"
+                onClick={() => {
+                  setSortBy("price");
+                  setShowDropdown(false);
+                }}
+              >
+                Sorter etter pris
+              </button>
+            </div>
+          )}
+
+          <button
+            className="p-2 rounded-xl bg-navbar shadow-md"
+            onClick={toggleSort}
+          >
+            {sortOrder === "asc" ? (
+              <ArrowDownWideNarrow className="w-6 h-6" />
+            ) : (
+              <ArrowUpWideNarrow className="w-6 h-6" />
+            )}
+          </button>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <h2 className="text-lg font-semibold mb-4">Alle Varer</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredVarer.map((vare) => (
             <Card
               key={vare.name}
-              className="relative w-[160px] h-[220px] rounded-[10px] overflow-hidden"
+              className="relative w-[170px] h-[233px] rounded-[10px] overflow-hidden"
             >
               <img
                 src={vare.image}
                 alt={vare.name}
-                className="w-full h-32 object-cover"
+                className="absolute inset-0 w-full h-full object-cover"
               />
-              <CardContent className="p-2 text-center bg-gradient-to-t from-black/60 to-transparent absolute bottom-0 w-full">
-                <p className="text-sm font-medium text-white">{vare.name}</p>
-                <p className="text-xs text-gray-300">{vare.price}</p>
-                {vare.favorite && (
-                  <Star className="absolute top-2 right-2 text-yellow-400 w-4 h-4" />
-                )}
+              <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">
+                <p className="text-sm font-medium">{vare.name}</p>
+                <p className="text-xs">{vare.price}kr,-</p>
+                <button
+                  onClick={() => toggleFavorite(vare)}
+                  className="absolute top-2 right-2"
+                >
+                  <Star
+                    className={`w-6 h-6 transition-colors duration-300 ${favorites.includes(vare.name) ? "text-yellow-400" : "text-white"}`}
+                    fill={
+                      favorites.includes(vare.name) ? "currentColor" : "none"
+                    }
+                  />
+                </button>
               </CardContent>
             </Card>
           ))}

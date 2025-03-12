@@ -9,12 +9,18 @@ import { menuData } from "@/data/menuData";
 import { getToday } from "@/data/dateUtils";
 
 export default function Home() {
+  const [weekMeals, setWeekMeals] = useState<any>(null);
   const [selectedDay, setSelectedDay] = useState<string>(getToday());
   const selectedMeal = menuData.find((item) => item.day === selectedDay);
 
   return (
     <>
-      <Header selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
+      <Header
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        onWeekChange={setWeekMeals}
+      />
+
       {selectedMeal && (
         <DagensMeny
           selectedDay={selectedMeal.day}
