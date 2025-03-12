@@ -2,7 +2,6 @@ import { Card } from "@/components/ui/card";
 import { School } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { getWeekNumber } from "@/lib/date";
-import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 
 async function getTodaysMenu() {
@@ -36,10 +35,7 @@ async function getTodaysDeal() {
 }
 
 export default async function Home() {
-  const [_, todaysDeal] = await Promise.all([
-    getTodaysMenu(),
-    getTodaysDeal()
-  ]);
+  const todaysDeal = await getTodaysDeal();
 
   return (
     <main className="flex flex-col items-center">

@@ -13,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { urlForImage } from "@/lib/sanity-image";
 
 interface SanityImage {
   asset: {
