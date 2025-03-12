@@ -4,17 +4,6 @@ import { client } from "@/sanity/lib/client";
 import { getWeekNumber } from "@/lib/date";
 import Image from "next/image";
 
-async function getTodaysMenu() {
-  const currentWeek = getWeekNumber(new Date());
-  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  const today = days[new Date().getDay()];
-
-  const query = `*[_type == "weeklyMenu" && weekNumber == ${currentWeek}][0]`;
-  const weekMenu = await client.fetch(query);
-  
-  return weekMenu?.[today] || "Ingen meny tilgjengelig for i dag";
-}
-
 async function getTodaysDeal() {
   const currentWeek = getWeekNumber(new Date());
   const days = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
