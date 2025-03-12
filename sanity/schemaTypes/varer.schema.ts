@@ -1,8 +1,7 @@
-// ./schemas/vare.ts
 import { defineField, defineType } from "sanity";
 
 export const varer = defineType({
-  name: "varer",
+  name: "vare",
   title: "Varer",
   type: "document",
   fields: [

@@ -124,7 +124,7 @@ export default function WeeklyMenu() {
   }
 
   return (
-    <main className="flex flex-col gap-8 items-center min-h-screen pt-4 px-4 mb-16">
+    <main className="flex flex-col gap-8 items-center min-h-screen pt-4 px-4">
       <div className="w-full max-w-xs">
         <Select
           value={selectedWeek?.toString()}
@@ -186,13 +186,23 @@ export default function WeeklyMenu() {
                     <div className="flex flex-col h-full">
                       {dayMeal.meal?.image?.asset?._ref ? (
                         <div className="relative w-full h-1/3 mb-4">
-                          <Image
-                            src={urlFor(dayMeal.meal.image).url()}
-                            alt={dayMeal.meal.title || 'Meal image'}
-                            fill
-                            className="object-cover rounded-md"
-                            priority
-                          />
+                          {(() => {
+                            const imageUrl = urlFor(dayMeal.meal.image);
+                            return imageUrl ? (
+                              <Image
+                                src={imageUrl}
+                                alt={dayMeal.meal.title || 'Meal image'}
+                                fill
+                                className="object-cover rounded-md"
+                                sizes="(max-width: 768px) 100vw, 800px"
+                                priority
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-secondary rounded-md flex items-center justify-center">
+                                <p className="text-gray-500">Ugyldig bilde URL</p>
+                              </div>
+                            );
+                          })()}
                         </div>
                       ) : (
                         <div className="w-full h-1/3 mb-4 bg-secondary rounded-md flex items-center justify-center">
