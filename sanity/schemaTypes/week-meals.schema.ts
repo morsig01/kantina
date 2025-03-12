@@ -3,17 +3,17 @@ import { defineType } from "sanity";
 export const weekMeals = defineType({
   name: "weekMeals",
   type: "document",
-  title: "Ukens måltider",
+  title: "Ukemeny",
   fields: [
     {
       name: "weekNumber",
       type: "number",
-      title: "Week Number",
-      description: "Ukenummeret",
+      title: "Ukenummer",
     },
     {
       name: "meals",
       type: "array",
+      title: "Måltider",
       of: [
         {
           type: "object",
@@ -22,7 +22,6 @@ export const weekMeals = defineType({
               name: "day",
               type: "string",
               title: "Dag",
-                description: "Dag i uken",
               options: {
                 list: [
                   "Mandag",
@@ -36,6 +35,7 @@ export const weekMeals = defineType({
             {
               name: "meal",
               type: "reference",
+              title: "Måltid",
               to: [{ type: "meals" }],
             },
           ],

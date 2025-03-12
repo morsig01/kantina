@@ -3,12 +3,12 @@ import { defineType } from "sanity";
 export const meals = defineType({
   name: "meals",
   type: "document",
-  title: "Måltider",
+  title: "Uke-måltider",
   fields: [
     {
       name: "title",
       type: "string",
-      title: "Meal Name",
+      title: "Matrett",
       description: "Navn på måltidet",
     },
     {
@@ -20,7 +20,7 @@ export const meals = defineType({
     {
       name: "image",
       type: "image",
-      title: "Image",
+      title: "Bilde",
       description: "Bilde av måltidet",
     },
     {
