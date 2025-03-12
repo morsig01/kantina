@@ -40,7 +40,7 @@ export default async function Home() {
     getTodaysMenu(),
     getTodaysDeal()
   ]);
-  
+
   return (
     <main className="flex flex-col items-center">
       <div className="w-full flex justify-center py-20">

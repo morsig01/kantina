@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { urlForImage } from "@/lib/sanity-image";
 
 interface SanityImage {
   asset: {
@@ -122,6 +123,8 @@ export default function WeeklyMenu() {
   if (error) {
     return <div className="p-4 text-red-500">{error}</div>;
   }
+
+  console.log()
 
   return (
     <main className="flex flex-col gap-8 items-center min-h-screen pt-4 px-4">

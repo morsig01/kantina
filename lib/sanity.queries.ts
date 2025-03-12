@@ -14,7 +14,8 @@ export const getWeeklyMealsQuery = groq`
       "meal": meal-> {
         title,
         price,
-        "imageUrl": image.asset->url,
+        "imageUrl": image.asset->url,  
+        image,
         allergens
       }
     } | order(day asc)
