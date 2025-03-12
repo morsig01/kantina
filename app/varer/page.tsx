@@ -63,7 +63,7 @@ export default function VarerPage() {
       if (sortBy === "price") {
         return sortOrder === "asc" ? a.price - b.price : b.price - a.price;
       }
-      return sortOrder === "asc" 
+      return sortOrder === "asc"
         ? a.name.localeCompare(b.name)
         : b.name.localeCompare(a.name);
     });
@@ -75,118 +75,126 @@ export default function VarerPage() {
   return (
     <>
       <div className="p-4 mt-5 pb-24">
-        <Input
-          placeholder="Søk etter varer..."
-          value={search}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
-          className="mb-4"
-        />
-
         <h2 className="text-lg font-semibold mb-2">Dine Favoritter</h2>
         {favoriteVarer.length > 0 ? (
           <Carousel className="w-full overflow-hidden pb-2">
-        <CarouselContent>
-          {favoriteVarer.map((vare: Vare) => (
-            <CarouselItem
-          key={vare.name}
-          className="basis-1/3 flex-shrink-0"
-            >
-          <Card className="relative w-[160px] h-[220px] rounded-[10px] overflow-hidden">
-            <img
-              src={vare.image}
-              alt={vare.name}
-              className="w-full h-40 object-cover"
-            />
-            <CardContent className="p-2 text-center absolute bottom-0 w-full bg-gradient-to-t from-black/70 to-transparent">
-              <p className="text-sm font-medium text-white">
-            {vare.name}
-              </p>
-              <p className="text-xs text-gray-300">{vare.price}kr,-</p>
-              <Star
-            className="absolute top-2 right-2 text-yellow-400 w-5 h-5 cursor-pointer"
-            onClick={() => toggleFavorite(vare)}
-              />
-            </CardContent>
-          </Card>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
+            <CarouselContent className="gap-4">
+              {favoriteVarer.map((vare: Vare) => (
+                <CarouselItem
+                  key={vare.name}
+                  className="basis-[calc(33.333%-1rem)] min-w-[140px] max-w-[160px] flex-shrink-0"
+                >
+                  <Card className="relative w-full aspect-[3/4] rounded-[10px] overflow-hidden">
+                    <img
+                      src={vare.image}
+                      alt={vare.name}
+                      className="w-full h-40 object-cover"
+                    />
+                    <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">
+                      <p className="text-sm font-medium">{vare.name}</p>
+                      <p className="text-xs">{vare.price}kr,-</p>
+                      <button
+                        onClick={() => toggleFavorite(vare)}
+                        className="absolute top-2 right-2"
+                      >
+                        <Star
+                          className={`w-6 h-6 transition-colors duration-300 ${
+                            favorites.includes(vare.name) ? "text-yellow-400" : "text-white"
+                          }`}
+                          fill={favorites.includes(vare.name) ? "currentColor" : "none"}
+                        />
+                      </button>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
           </Carousel>
         ) : (
           <p className="text-gray-500 mb-4">Ingen favoritter enda.</p>
         )}
 
+        <h2 className="text-lg font-semibold mb-4">Alle Varer</h2>
+
+        <Input
+          placeholder="Søk etter varer..."
+          value={search}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSearch(e.target.value)
+          }
+          className="mb-4 h-12 px-4 bg-navbar/50 shadow-md rounded-xl placeholder:text-gray-400"
+        />
+
         <div className="flex gap-4 mb-4 relative">
           <button
-        className="p-2 rounded-xl bg-navbar shadow-md"
-        onClick={() => setShowDropdown((prev: boolean) => !prev)}
+            className="p-2 rounded-xl bg-navbar shadow-md"
+            onClick={() => setShowDropdown((prev: boolean) => !prev)}
           >
-        <Filter className="w-6 h-6" />
+            <Filter className="w-6 h-6" />
           </button>
 
-          {showDropdown && (
-        <div className="absolute top-12 left-0 bg-content shadow-lg rounded-lg p-2 z-50">
+            {showDropdown && (
+            <div className="absolute top-12 left-0 bg-white shadow-lg rounded-lg p-2 z-50">
+              <button
+              className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
+              onClick={() => {
+                setSortBy("name");
+                setShowDropdown(false);
+              }}
+              >
+              Sorter etter navn
+              </button>
+              <button
+              className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
+              onClick={() => {
+                setSortBy("price");
+                setShowDropdown(false);
+              }}
+              >
+              Sorter etter pris
+              </button>
+            </div>
+            )}
+
           <button
-            className="block w-full text-left p-2 hover:bg-selection"
-            onClick={() => {
-          setSortBy("name");
-          setShowDropdown(false);
-            }}
+            className="p-2 rounded-xl bg-navbar shadow-md"
+            onClick={toggleSort}
           >
-            Sorter etter navn
-          </button>
-          <button
-            className="block w-full text-left p-2 hover:bg-selection"
-            onClick={() => {
-          setSortBy("price");
-          setShowDropdown(false);
-            }}
-          >
-            Sorter etter pris
+            {sortOrder === "asc" ? (
+              <ArrowDownWideNarrow className="w-6 h-6" />
+            ) : (
+              <ArrowUpWideNarrow className="w-6 h-6" />
+            )}
           </button>
         </div>
-          )}
 
-          <button
-        className="p-2 rounded-xl bg-navbar shadow-md"
-        onClick={toggleSort}
-          >
-        {sortOrder === "asc" ? (
-          <ArrowDownWideNarrow className="w-6 h-6" />
-        ) : (
-          <ArrowUpWideNarrow className="w-6 h-6" />
-        )}
-          </button>
-        </div>
-
-        <h2 className="text-lg font-semibold mb-4">Alle Varer</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center w-full">
           {filteredVarer.map((vare: Vare) => (
-        <Card
-          key={vare.name}
-          className="relative w-[170px] h-[233px] rounded-[10px] overflow-hidden"
-        >
-          <img
-            src={vare.image}
-            alt={vare.name}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">
-            <p className="text-sm font-medium">{vare.name}</p>
-            <p className="text-xs">{vare.price}kr,-</p>
-            <button
-          onClick={() => toggleFavorite(vare)}
-          className="absolute top-2 right-2"
+            <Card
+              key={vare.name}
+              className="relative w-full min-w-[140px] max-w-[170px] aspect-[3/4] rounded-[10px] overflow-hidden"
             >
-          <Star
-            className={`w-6 h-6 transition-colors duration-300 ${favorites.includes(vare.name) ? "text-yellow-400" : "text-white"}`}
-            fill={
-              favorites.includes(vare.name) ? "currentColor" : "none"
-            }
-          />
-            </button>
-          </CardContent>
-        </Card>
+              <img
+                src={vare.image}
+                alt={vare.name}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">
+                <p className="text-sm font-medium">{vare.name}</p>
+                <p className="text-xs">{vare.price}kr,-</p>
+                <button
+                  onClick={() => toggleFavorite(vare)}
+                  className="absolute top-2 right-2"
+                >
+                  <Star
+                    className={`w-6 h-6 transition-colors duration-300 ${favorites.includes(vare.name) ? "text-yellow-400" : "text-white"}`}
+                    fill={
+                      favorites.includes(vare.name) ? "currentColor" : "none"
+                    }
+                  />
+                </button>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
