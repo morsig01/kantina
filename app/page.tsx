@@ -23,8 +23,25 @@ async function getTodaysDeal() {
   return result?.todaysMeal?.meal;
 }
 
+function isCanteenOpen() {
+  const now = new Date();
+  const day = now.getDay();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const currentTime = hours * 60 + minutes;
+
+  // Return false for weekend (Saturday = 6, Sunday = 0)
+  if (day === 0 || day === 6) return false;
+
+  const openTime = 9 * 60 + 30; // 09:30
+  const closeTime = day === 5 ? 13 * 60 : 14 * 60; // 13:00 on Friday, 14:00 other days
+
+  return currentTime >= openTime && currentTime < closeTime;
+}
+
 export default async function Home() {
   const todaysDeal = await getTodaysDeal();
+  const isOpen = isCanteenOpen();
 
   return (
     <main className="flex flex-col min-h-screen pb-16">
@@ -63,7 +80,20 @@ export default async function Home() {
           </Card>
 
           <Card className="h-40 p-4">
-            <h3 className="text-xl font-semibold">Åpningstid</h3>
+            <div className="space-y-2">
+              <h3 className="text-xl font-semibold">Åpningstid</h3>
+              <div className="flex items-center gap-2">
+                <div className={`relative w-3 h-3 ${isOpen ? 'bg-green-400' : 'bg-red-500'} rounded-full animate-[pulse_2s_ease-in-out_infinite]
+                  before:absolute before:inset-0 before:rounded-full before:shadow-[0_0_6px] 
+                  ${isOpen ? 'before:shadow-green-400/90' : 'before:shadow-red-500/90'}`} 
+                />
+                <span>{isOpen ? 'Åpent' : 'Stengt'}</span>
+              </div>
+              <div className="text-sm text-muted-foreground">
+                <p>Mandag-Torsdag: 09:30-14:00</p>
+                <p>Fredag: 09:30-13:00</p>
+              </div>
+            </div>
           </Card>
 
           <Card className="h-40 p-4">
