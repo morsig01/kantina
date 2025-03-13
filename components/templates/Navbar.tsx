@@ -14,7 +14,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 bg-navbar h-20 flex rounded-t-2xl shadow-md bg-neutral-300 pb-[env(safe-area-inset-bottom)]">
+    <nav className="fixed inset-x-0 bottom-0 bg-navbar h-20 flex rounded-t-2xl shadow-md bg-neutral-300 pb-[env(safe-area-inset-bottom)]">
       {links.map(({ href, label, icon: Icon }, index) => (
         <Link
           key={href}

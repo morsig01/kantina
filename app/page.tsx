@@ -27,9 +27,9 @@ export default async function Home() {
   const todaysDeal = await getTodaysDeal();
 
   return (
-    <main className="flex flex-col min-h-screen">
+    <main className="flex flex-col min-h-screen pb-16">
       <div className="flex-1 flex flex-col w-full">
-        <div className="flex-1 flex items-center justify-center py-12">
+        <div className="flex-1 flex items-center justify-center">
           <School size={64} />
         </div>
         
@@ -67,7 +67,7 @@ export default async function Home() {
           </Card>
 
           <Card className="h-40 p-4">
-            <h3 className="text-xl font-semibold">Spesielle tilbud</h3>
+            <h3 className="text-xl font-semibold">Ukens Spesial</h3>
           </Card>
         </div>
 

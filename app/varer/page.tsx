@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -85,9 +86,11 @@ export default function VarerPage() {
                   className="basis-[calc(33.333%-1rem)] min-w-[140px] max-w-[160px] flex-shrink-0"
                 >
                   <Card className="relative w-full aspect-[3/4] rounded-[10px] overflow-hidden">
-                    <img
+                    <Image
                       src={vare.image}
                       alt={vare.name}
+                      width={160}
+                      height={160}
                       className="w-full h-40 object-cover"
                     />
                     <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">
@@ -174,9 +177,11 @@ export default function VarerPage() {
               key={vare.name}
               className="relative w-full min-w-[140px] max-w-[170px] aspect-[3/4] rounded-[10px] overflow-hidden"
             >
-              <img
+              <Image
                 src={vare.image}
                 alt={vare.name}
+                width={170}
+                height={227}
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">

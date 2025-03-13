@@ -48,7 +48,7 @@ export default function WeeklyMenu() {
   const [dragOffset, setDragOffset] = useState(0);
 
   // Required distance between touchStart and touchEnd to determine swipe direction
-  const minSwipeDistance = 50;
+  const minSwipeDistance = 100;
 
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
@@ -60,7 +60,7 @@ export default function WeeklyMenu() {
     if (!touchStart || !isDragging) return;
     
     const currentTouch = e.targetTouches[0].clientX;
-    const diff = touchStart - currentTouch;
+    const diff = (touchStart - currentTouch) / 2; // Reduced sensitivity by dividing by 2
     setDragOffset(diff);
   };
 
@@ -126,7 +126,7 @@ export default function WeeklyMenu() {
   console.log()
 
   return (
-    <main className="flex flex-col gap-8 items-center min-h-screen pt-4 px-4">
+    <main className="flex flex-col gap-4 items-center h-screen overflow-hidden pt-2">
       <div className="w-full max-w-xs">
         <Select
           value={selectedWeek?.toString()}
@@ -146,28 +146,29 @@ export default function WeeklyMenu() {
         </Select>
       </div>
 
-      <div className="grid grid-cols-5 gap-4 w-full max-w-2xl mx-auto">
+      <div className="grid grid-cols-5 gap-4 w-full max-w-2xl mx-auto px-4">
         {shortDays.map((day, index) => (
           <Card 
             key={day} 
-            className={`w-16 h-16 flex items-center justify-center transition-all ${
+            className={`w-16 h-16 flex items-center justify-center transition-all cursor-pointer ${
               currentDay === index 
                 ? 'ring-2 ring-primary bg-secondary' 
                 : 'hover:bg-secondary'
             }`}
+            onClick={() => setCurrentDay(index)}
           >
             <h3 className="text-lg font-semibold">{day}</h3>
           </Card>
         ))}
       </div>
 
-      <div className="w-full relative">
-        <div className="w-full overflow-hidden">
+      <div className="w-full relative h-[calc(100vh-15rem)] min-h-[350px]">
+        <div className="w-full h-full overflow-hidden px-4">
           <div 
-            className="flex w-[500%] touch-pan-x"
+            className="flex w-[500%] h-full touch-pan-x"
             style={{ 
-              transform: `translateX(${-currentDay * 20 - (isDragging ? dragOffset / 5 : 0)}%)`,
-              transition: isDragging ? 'none' : 'transform 300ms ease-in-out'
+              transform: `translateX(${-currentDay * 20 - (isDragging ? dragOffset / 10 : 0)}%)`,
+              transition: isDragging ? 'none' : 'transform 500ms ease-in-out'
             }}
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
@@ -181,13 +182,13 @@ export default function WeeklyMenu() {
               return (
                 <Card 
                   key={day} 
-                  className="w-full flex-shrink-0 h-[65vh] mx-auto p-6"
+                  className="w-full flex-shrink-0 h-full mx-auto p-3"
                   style={{ width: '20%' }}
                 >
                   {dayMeal ? (
-                    <div className="flex flex-col h-full">
+                    <div className="flex flex-col h-full gap-2">
                       {dayMeal.meal?.image?.asset?._ref ? (
-                        <div className="relative w-full h-1/3 mb-4">
+                        <div className="relative w-full h-[25%] min-h-[180px]">
                           {(() => {
                             const imageUrl = urlFor(dayMeal.meal.image);
                             return imageUrl ? (
@@ -207,13 +208,13 @@ export default function WeeklyMenu() {
                           })()}
                         </div>
                       ) : (
-                        <div className="w-full h-1/3 mb-4 bg-secondary rounded-md flex items-center justify-center">
+                        <div className="w-full min-h-[180px] h-[30%] bg-secondary rounded-md flex items-center justify-center">
                           <p className="text-gray-500">Ingen bilde tilgjengelig</p>
                         </div>
                       )}
-                      <div className="flex flex-col flex-grow">
-                        <h2 className="text-2xl font-bold mb-4">{dayMeal.meal.title}</h2>
-                        <p className="text-xl font-semibold mb-4">
+                      <div className="flex flex-col flex-1 overflow-auto">
+                        <h2 className="text-xl font-bold mb-2">{dayMeal.meal.title}</h2>
+                        <p className="text-lg font-semibold mb-2">
                           Pris: {dayMeal.meal.price}kr
                         </p>
                         {dayMeal.meal.allergens && dayMeal.meal.allergens.length > 0 && (
