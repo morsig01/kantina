@@ -42,6 +42,15 @@ export const weekMeals = defineType({
         },
       ],
     },
+    {
+      name: "specialMeal",
+      type: "reference",
+      title: "Ukens spesial",
+      to: [{ type: "meals" }],
+      options: {
+        filter: 'isSpecial == true'
+      }
+    },
   ],
   preview: {
     select: {

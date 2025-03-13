@@ -46,6 +46,12 @@ export const meals = defineType({
           {title: "Sesam", value: "sesam"},
         ]
       }
-    }
+    },
+    {
+      name: "isSpecial",
+      title: "Spesialrett",
+      type: "boolean",
+      initialValue: false,
+    },
   ]
 })

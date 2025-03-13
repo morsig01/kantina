@@ -16,11 +16,19 @@ async function getTodaysDeal() {
         price,
         "imageUrl": image.asset->url
       }
+    },
+    "specialMeal": specialMeal-> {
+      title,
+      price,
+      "imageUrl": image.asset->url
     }
   }`;
   
   const result = await client.fetch(query, { today });
-  return result?.todaysMeal?.meal;
+  return { 
+    todaysMeal: result?.todaysMeal?.meal,
+    specialMeal: result?.specialMeal 
+  };
 }
 
 function isCanteenOpen() {
@@ -40,7 +48,7 @@ function isCanteenOpen() {
 }
 
 export default async function Home() {
-  const todaysDeal = await getTodaysDeal();
+  const { todaysMeal, specialMeal } = await getTodaysDeal();
   const isOpen = isCanteenOpen();
 
   return (
@@ -55,20 +63,20 @@ export default async function Home() {
             <div className="flex gap-6">
               <div className="flex-1">
                 <h2 className="text-2xl font-bold mb-4">Dagens Meny</h2>
-                {todaysDeal ? (
+                {todaysMeal ? (
                   <div>
-                    <h3 className="text-xl font-medium mb-2">{todaysDeal.title}</h3>
-                    <span className="text-lg font-bold">{todaysDeal.price}kr</span>
+                    <h3 className="text-xl font-medium mb-2">{todaysMeal.title}</h3>
+                    <span className="text-lg font-bold">{todaysMeal.price}kr</span>
                   </div>
                 ) : (
                   <p className="text-muted-foreground">Ingen rett for i dag</p>
                 )}
               </div>
-              {todaysDeal?.imageUrl && (
+              {todaysMeal?.imageUrl && (
                 <div className="relative w-48 h-48">
                   <Image
-                    src={todaysDeal.imageUrl}
-                    alt={todaysDeal.title}
+                    src={todaysMeal.imageUrl}
+                    alt={todaysMeal.title}
                     fill
                     sizes="12rem"
                     priority
@@ -96,9 +104,31 @@ export default async function Home() {
             </div>
           </Card>
 
-          <Card className="h-40 p-4">
+          <Card className="h-40 p-4"> {/* Increased height from h-40 to h-52 */}
             <h3 className="text-xl font-semibold">Ukens Spesial</h3>
+            {specialMeal ? (
+              <div className="mt-2 flex gap-4">
+                <div className="flex-1">
+                  <h4 className="font-medium">{specialMeal.title}</h4>
+                  <span className="text-lg font-bold">{specialMeal.price}kr</span>
+                </div>
+                {specialMeal.imageUrl && (
+                  <div className="relative w-24 h-24">
+                    <Image
+                      src={specialMeal.imageUrl}
+                      alt={specialMeal.title}
+                      fill
+                      sizes="6rem"
+                      className="object-cover rounded-lg"
+                    />
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p className="text-muted-foreground mt-2">Ingen spesialrett denne uken</p>
+            )}
           </Card>
+
         </div>
 
         <div className="flex-1" />
