@@ -1,11 +1,25 @@
 import createImageUrlBuilder from "@sanity/image-url";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-
 import { dataset, projectId } from "../env";
 
-const builder = createImageUrlBuilder({ projectId, dataset });
+const imageBuilder = createImageUrlBuilder({
+  projectId: projectId || '',
+  dataset: dataset || '',
+});
 
 export const urlFor = (source: SanityImageSource | null) => {
-  if (!source || typeof source === 'string' || !('asset' in source)) return '';
-  return builder.image(source).auto('format').fit('max').url() || '';
+  if (!source) {
+    return '';
+  }
+  
+  try {
+    return imageBuilder
+      .image(source)
+      .auto('format')
+      .fit('max')
+      .url();
+  } catch (error) {
+    console.error('Error generating image URL:', error);
+    return '';
+  }
 };
