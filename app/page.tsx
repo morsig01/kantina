@@ -3,6 +3,7 @@ import { School } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { getWeekNumber } from "@/lib/date";
 import Image from "next/image";
+import ScrollLock from "@/lib/ScrollLock";
 
 async function getTodaysDeal() {
   const currentWeek = getWeekNumber(new Date());
@@ -53,6 +54,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col min-h-screen pb-16">
+      <ScrollLock />
       <div className="flex-1 flex flex-col w-full">
         <div className="flex-1 flex items-center justify-center">
           <School size={64} />
