@@ -1,11 +1,11 @@
 {
     "name": "Kattameny",
-    "short_name": "Kantina",
+    "short_name": "Kattameny",
     "description": "App for kantina",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
-    "theme_color": "#FF5733",
+    "theme_color": "#ffffff",
     "orientation": "portrait",
     "icons": [
       {
