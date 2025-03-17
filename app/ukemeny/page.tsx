@@ -13,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ScrollLock from "@/lib/ScrollLock";
 
 interface SanityImage {
   asset: {
@@ -128,7 +127,6 @@ export default function WeeklyMenu() {
 
   return (
     <main className="flex flex-col gap-4 items-center h-screen overflow-hidden pt-2">
-      <ScrollLock />
       <div className="w-full max-w-xs">
         <Select
           value={selectedWeek?.toString()}

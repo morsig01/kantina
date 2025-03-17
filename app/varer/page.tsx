@@ -10,6 +10,7 @@ import {
   Filter,
   ArrowDownWideNarrow,
   ArrowUpWideNarrow,
+  Scroll,
 } from "lucide-react";
 import NavBar from "@/components/templates/Navbar";
 import {
@@ -75,7 +76,7 @@ export default function VarerPage() {
 
   return (
     <>
-      <div className="p-4 mt-5 pb-24">
+      <main className="p-4 mt-5 pb-24">
         <h2 className="text-lg font-semibold mb-2">Dine Favoritter</h2>
         {favoriteVarer.length > 0 ? (
           <Carousel className="w-full overflow-hidden pb-2">
@@ -91,8 +92,7 @@ export default function VarerPage() {
                       alt={vare.name}
                       width={160}
                       height={160}
-                      className="w-full h-40 object-cover"
-                    />
+                      className="w-full h-40 object-cover" />
                     <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">
                       <p className="text-sm font-medium">{vare.name}</p>
                       <p className="text-xs">{vare.price}kr,-</p>
@@ -101,11 +101,8 @@ export default function VarerPage() {
                         className="absolute top-2 right-2"
                       >
                         <Star
-                          className={`w-6 h-6 transition-colors duration-300 ${
-                            favorites.includes(vare.name) ? "text-yellow-400" : "text-white"
-                          }`}
-                          fill={favorites.includes(vare.name) ? "currentColor" : "none"}
-                        />
+                          className={`w-6 h-6 transition-colors duration-300 ${favorites.includes(vare.name) ? "text-yellow-400" : "text-white"}`}
+                          fill={favorites.includes(vare.name) ? "currentColor" : "none"} />
                       </button>
                     </CardContent>
                   </Card>
@@ -122,11 +119,8 @@ export default function VarerPage() {
         <Input
           placeholder="Søk etter varer..."
           value={search}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSearch(e.target.value)
-          }
-          className="mb-4 h-12 px-4 bg-navbar/50 shadow-md rounded-xl placeholder:text-gray-400"
-        />
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+          className="mb-4 h-12 px-4 bg-navbar/50 shadow-md rounded-xl placeholder:text-gray-400" />
 
         <div className="flex gap-4 mb-4 relative">
           <button
@@ -136,28 +130,28 @@ export default function VarerPage() {
             <Filter className="w-6 h-6" />
           </button>
 
-            {showDropdown && (
+          {showDropdown && (
             <div className="absolute top-12 left-0 bg-white shadow-lg rounded-lg p-2 z-50">
               <button
-              className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
-              onClick={() => {
-                setSortBy("name");
-                setShowDropdown(false);
-              }}
+                className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
+                onClick={() => {
+                  setSortBy("name");
+                  setShowDropdown(false);
+                } }
               >
-              Sorter etter navn
+                Sorter etter navn
               </button>
               <button
-              className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
-              onClick={() => {
-                setSortBy("price");
-                setShowDropdown(false);
-              }}
+                className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
+                onClick={() => {
+                  setSortBy("price");
+                  setShowDropdown(false);
+                } }
               >
-              Sorter etter pris
+                Sorter etter pris
               </button>
             </div>
-            )}
+          )}
 
           <button
             className="p-2 rounded-xl bg-navbar shadow-md"
@@ -182,8 +176,7 @@ export default function VarerPage() {
                 alt={vare.name}
                 width={170}
                 height={227}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
+                className="absolute inset-0 w-full h-full object-cover" />
               <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">
                 <p className="text-sm font-medium">{vare.name}</p>
                 <p className="text-xs">{vare.price}kr,-</p>
@@ -193,19 +186,14 @@ export default function VarerPage() {
                 >
                   <Star
                     className={`w-6 h-6 transition-colors duration-300 ${favorites.includes(vare.name) ? "text-yellow-400" : "text-white"}`}
-                    fill={
-                      favorites.includes(vare.name) ? "currentColor" : "none"
-                    }
-                  />
+                    fill={favorites.includes(vare.name) ? "currentColor" : "none"} />
                 </button>
               </CardContent>
             </Card>
           ))}
         </div>
-      </div>
-      <div className="fixed bottom-0 left-0 right-0">
-        <NavBar />
-      </div>
+      </main>
+      <NavBar />
     </>
   );
 }
