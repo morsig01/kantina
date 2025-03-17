@@ -10,7 +10,6 @@ import {
   Filter,
   ArrowDownWideNarrow,
   ArrowUpWideNarrow,
-  Scroll,
 } from "lucide-react";
 import NavBar from "@/components/templates/Navbar";
 import {
