@@ -32,17 +32,17 @@ async function getTodaysDeal() {
 }
 
 function isCanteenOpen() {
-  const now = new Date();
-  const day = now.getDay();
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
+  const now = new Date().toLocaleString('en-US', { timeZone: 'Europe/Oslo' });
+  const norwegianDate = new Date(now);
+  const day = norwegianDate.getDay();
+  const hours = norwegianDate.getHours();
+  const minutes = norwegianDate.getMinutes();
   const currentTime = hours * 60 + minutes;
 
-  // Return false for weekend (Saturday = 6, Sunday = 0)
   if (day === 0 || day === 6) return false;
 
-  const openTime = 9 * 60 + 30; // 09:30
-  const closeTime = day === 5 ? 13 * 60 : 14 * 60; // 13:00 on Friday, 14:00 other days
+  const openTime = 9 * 60 + 30;
+  const closeTime = day === 5 ? 13 * 60 : 14 * 60;
 
   return currentTime >= openTime && currentTime < closeTime;
 }
