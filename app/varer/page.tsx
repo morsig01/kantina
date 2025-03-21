@@ -31,7 +31,8 @@ export default function VarerPage() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>("name");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showSortDropdown, setShowSortDropdown] = useState(false);
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
 
   useEffect(() => {
     async function fetchVarer() {
@@ -69,15 +70,9 @@ export default function VarerPage() {
         : b.name.localeCompare(a.name);
     });
 
-  const toggleSort = () => {
-    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
-  };
-
   return (
     <>
       <main className="p-4 mt-5 pb-24">
-        {/* Logo */}
-
         {/* Search bar */}
         <Input
           id="searchbar"
@@ -144,20 +139,20 @@ export default function VarerPage() {
 
         {/* Filter buttons */}
         <div className="flex gap-2 mb-2 relative">
+          {/* Sort dropdown */}
           <button
             className="p-2 rounded-xl bg-card shadow-md"
-            onClick={() => setShowDropdown((prev: boolean) => !prev)}
+            onClick={() => setShowSortDropdown((prev) => !prev)}
           >
             <Filter className="w-6 h-6" />
           </button>
-
-          {showDropdown && (
+          {showSortDropdown && (
             <div className="absolute top-12 left-0 bg-card shadow-lg rounded-lg p-2 z-50">
               <button
                 className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
                 onClick={() => {
                   setSortBy("name");
-                  setShowDropdown(false);
+                  setShowSortDropdown(false);
                 }}
               >
                 Sorter etter navn
@@ -166,7 +161,7 @@ export default function VarerPage() {
                 className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
                 onClick={() => {
                   setSortBy("price");
-                  setShowDropdown(false);
+                  setShowSortDropdown(false);
                 }}
               >
                 Sorter etter pris
@@ -174,16 +169,35 @@ export default function VarerPage() {
             </div>
           )}
 
+          {/* Category dropdown */}
           <button
             className="p-2 rounded-xl bg-card shadow-md"
-            onClick={toggleSort}
+            onClick={() => setShowCategoryDropdown((prev) => !prev)}
           >
-            {sortOrder === "asc" ? (
-              <ArrowDownWideNarrow className="w-6 h-6" />
-            ) : (
-              <ArrowUpWideNarrow className="w-6 h-6" />
-            )}
+            <ArrowDownWideNarrow className="w-6 h-6" />
           </button>
+          {showCategoryDropdown && (
+            <div className="absolute top-12 left-0 bg-card shadow-lg rounded-lg p-2 z-50">
+              <button
+                className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
+                onClick={() => {
+                  setSortBy("name");
+                  setShowCategoryDropdown(false);
+                }}
+              >
+                Mat
+              </button>
+              <button
+                className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
+                onClick={() => {
+                  setSortBy("price");
+                  setShowCategoryDropdown(false);
+                }}
+              >
+                Drikke
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center w-full">
