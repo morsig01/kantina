@@ -76,32 +76,51 @@ export default function VarerPage() {
   return (
     <>
       <main className="p-4 mt-5 pb-24">
+        {/* Logo */}
+
+        {/* Search bar */}
+        <Input
+          id="searchbar"
+          placeholder="Søk etter varer..."
+          value={search}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSearch(e.target.value)
+          }
+          className="mb-4 h-12 px-4 bg-navbar/50 shadow-md rounded-xl placeholder:text-gray-400"
+        />
+
+        {/* Favorite Section */}
         <h2 className="text-lg font-semibold mb-2">Dine Favoritter</h2>
         {favoriteVarer.length > 0 ? (
           <Carousel className="w-full overflow-hidden pb-2">
-            <CarouselContent className="gap-4">
+            <CarouselContent className="gap-1">
               {favoriteVarer.map((vare: Vare) => (
                 <CarouselItem
                   key={vare.name}
-                  className="basis-[calc(33.333%-1rem)] min-w-[140px] max-w-[160px] flex-shrink-0"
+                  className="basis-[calc(55%-1rem)] h-[220px] w-[360px] flex-shrink-0"
                 >
-                  <Card className="relative w-full aspect-[3/4] rounded-[10px] overflow-hidden">
+                  <Card className="relative w-full h-full aspect-[3/4] rounded-[10px] overflow-hidden">
                     <Image
                       src={vare.image}
                       alt={vare.name}
                       width={160}
                       height={160}
-                      className="w-full h-40 object-cover"
+                      priority
+                      className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">
-                      <p className="text-sm font-medium">{vare.name}</p>
-                      <p className="text-xs">{vare.price}kr,-</p>
+                    <CardContent className="absolute inset-x-[2px] bottom-0.5 w-[calc(100%-4px)] h-14 rounded-md bg-gradient-to-t from-black/80 to-black/20 backdrop-blur-sm p-1">
+                      <p className="text-base text-white line-clamp-2">
+                        {vare.name}
+                      </p>
+                      <div className="p-1 rounded-md bg-green-600 text-white w-12 text-xs text-center">
+                        <p className="text-xs">{vare.price}kr,-</p>
+                      </div>
                       <button
                         onClick={() => toggleFavorite(vare)}
-                        className="absolute top-2 right-2"
+                        className="absolute top-2 right-1"
                       >
                         <Star
-                          className={`w-6 h-6 transition-colors duration-300 ${
+                          className={`w-4 h-4 transition-colors duration-300 ${
                             favorites.includes(vare.name)
                               ? "text-yellow-400"
                               : "text-white"
@@ -123,17 +142,7 @@ export default function VarerPage() {
           <p className="text-gray-500 mb-4">Ingen favoritter enda.</p>
         )}
 
-        <h2 className="text-lg font-semibold mb-4">Alle Varer</h2>
-
-        <Input
-          placeholder="Søk etter varer..."
-          value={search}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSearch(e.target.value)
-          }
-          className="mb-4 h-12 px-4 bg-navbar/50 shadow-md rounded-xl placeholder:text-gray-400"
-        />
-
+        {/* Filter buttons */}
         <div className="flex gap-4 mb-4 relative">
           <button
             className="p-2 rounded-xl bg-navbar shadow-md"
@@ -188,6 +197,7 @@ export default function VarerPage() {
                 alt={vare.name}
                 width={170}
                 height={227}
+                priority
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <CardContent className="absolute inset-x-[2px] bottom-0.5 w-[calc(100%-4px)] h-20 rounded-md bg-gradient-to-t from-black/80 to-black/20 backdrop-blur-sm p-2">
