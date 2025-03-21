@@ -93,11 +93,11 @@ export default function VarerPage() {
         <h2 className="text-lg font-semibold mb-2">Dine Favoritter</h2>
         {favoriteVarer.length > 0 ? (
           <Carousel className="w-full overflow-hidden pb-2">
-            <CarouselContent className="gap-1">
+            <CarouselContent className="gap-0.5">
               {favoriteVarer.map((vare: Vare) => (
                 <CarouselItem
                   key={vare.name}
-                  className="basis-[calc(55%-1rem)] h-[220px] w-[360px] flex-shrink-0"
+                  className="basis-[calc(50%-1rem)] h-[220px] w-[360px] flex-shrink-0"
                 >
                   <Card className="relative w-full h-full aspect-[3/4] rounded-[10px] overflow-hidden">
                     <Image
@@ -106,18 +106,18 @@ export default function VarerPage() {
                       width={160}
                       height={160}
                       priority
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute w-full h-full object-cover"
                     />
-                    <CardContent className="absolute inset-x-[2px] bottom-0.5 w-[calc(100%-4px)] h-14 rounded-md bg-gradient-to-t from-black/80 to-black/20 backdrop-blur-sm p-1">
+                    <div className="absolute m-1 p-0.5 rounded-md bg-green-600 text-white w-10 text-xs text-center">
+                      <p className="text-xs">{vare.price}kr,-</p>
+                    </div>
+                    <CardContent className="absolute inset-x-[2px] bottom-0.5 w-[calc(100%-4px)] h-16 rounded-md bg-gradient-to-t from-black/80 to-black/20 backdrop-blur-sm px-1.5 pt-0.5">
                       <p className="text-base text-white line-clamp-2">
                         {vare.name}
                       </p>
-                      <div className="p-1 rounded-md bg-green-600 text-white w-12 text-xs text-center">
-                        <p className="text-xs">{vare.price}kr,-</p>
-                      </div>
                       <button
                         onClick={() => toggleFavorite(vare)}
-                        className="absolute top-2 right-1"
+                        className="absolute top-1.5 right-1.5"
                       >
                         <Star
                           className={`w-4 h-4 transition-colors duration-300 ${
@@ -198,16 +198,16 @@ export default function VarerPage() {
                 width={170}
                 height={227}
                 priority
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute w-full h-full object-cover"
               />
-              <CardContent className="absolute inset-x-[2px] bottom-0.5 w-[calc(100%-4px)] h-20 rounded-md bg-gradient-to-t from-black/80 to-black/20 backdrop-blur-sm p-2">
+              <div className="absolute m-1 p-1 rounded-md bg-green-600 text-white w-12 text-xs text-center">
+                <p className="text-xs">{vare.price}kr,-</p>
+              </div>
+              <CardContent className="absolute inset-x-[2px] bottom-0.5 w-[calc(100%-4px)] h-16 rounded-md bg-gradient-to-t from-black/80 to-black/20 backdrop-blur-sm px-1.5 pt-0.5">
                 <p className="text-base text-white line-clamp-2">{vare.name}</p>
-                <div className="p-1 rounded-md bg-green-600 text-white w-12 text-xs text-center">
-                  <p className="text-xs">{vare.price}kr,-</p>
-                </div>
                 <button
                   onClick={() => toggleFavorite(vare)}
-                  className="absolute top-3 right-2"
+                  className="absolute top-1.5 right-1.5"
                 >
                   <Star
                     className={`w-5 h-5 transition-colors duration-300 ${
