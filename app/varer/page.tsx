@@ -91,7 +91,8 @@ export default function VarerPage() {
                       alt={vare.name}
                       width={160}
                       height={160}
-                      className="w-full h-40 object-cover" />
+                      className="w-full h-40 object-cover"
+                    />
                     <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">
                       <p className="text-sm font-medium">{vare.name}</p>
                       <p className="text-xs">{vare.price}kr,-</p>
@@ -100,8 +101,17 @@ export default function VarerPage() {
                         className="absolute top-2 right-2"
                       >
                         <Star
-                          className={`w-6 h-6 transition-colors duration-300 ${favorites.includes(vare.name) ? "text-yellow-400" : "text-white"}`}
-                          fill={favorites.includes(vare.name) ? "currentColor" : "none"} />
+                          className={`w-6 h-6 transition-colors duration-300 ${
+                            favorites.includes(vare.name)
+                              ? "text-yellow-400"
+                              : "text-white"
+                          }`}
+                          fill={
+                            favorites.includes(vare.name)
+                              ? "currentColor"
+                              : "none"
+                          }
+                        />
                       </button>
                     </CardContent>
                   </Card>
@@ -118,8 +128,11 @@ export default function VarerPage() {
         <Input
           placeholder="Søk etter varer..."
           value={search}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
-          className="mb-4 h-12 px-4 bg-navbar/50 shadow-md rounded-xl placeholder:text-gray-400" />
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSearch(e.target.value)
+          }
+          className="mb-4 h-12 px-4 bg-navbar/50 shadow-md rounded-xl placeholder:text-gray-400"
+        />
 
         <div className="flex gap-4 mb-4 relative">
           <button
@@ -136,7 +149,7 @@ export default function VarerPage() {
                 onClick={() => {
                   setSortBy("name");
                   setShowDropdown(false);
-                } }
+                }}
               >
                 Sorter etter navn
               </button>
@@ -145,7 +158,7 @@ export default function VarerPage() {
                 onClick={() => {
                   setSortBy("price");
                   setShowDropdown(false);
-                } }
+                }}
               >
                 Sorter etter pris
               </button>
@@ -168,24 +181,34 @@ export default function VarerPage() {
           {filteredVarer.map((vare: Vare) => (
             <Card
               key={vare.name}
-              className="relative w-full min-w-[140px] max-w-[170px] aspect-[3/4] rounded-[10px] overflow-hidden"
+              className="relative w-full max-h-[233px] max-w-[170px] aspect-[3/4] rounded-[10px] overflow-hidden"
             >
               <Image
                 src={vare.image}
                 alt={vare.name}
                 width={170}
                 height={227}
-                className="absolute inset-0 w-full h-full object-cover" />
-              <CardContent className="absolute bottom-0 w-full bg-black/60 text-white p-2 rounded-b-[10px]">
-                <p className="text-sm font-medium">{vare.name}</p>
-                <p className="text-xs">{vare.price}kr,-</p>
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <CardContent className="absolute inset-x-[2px] bottom-0.5 w-[calc(100%-4px)] h-20 rounded-md bg-gradient-to-t from-black/80 to-black/20 backdrop-blur-sm p-2">
+                <p className="text-base text-white line-clamp-2">{vare.name}</p>
+                <div className="p-1 rounded-md bg-green-600 text-white w-12 text-xs text-center">
+                  <p className="text-xs">{vare.price}kr,-</p>
+                </div>
                 <button
                   onClick={() => toggleFavorite(vare)}
-                  className="absolute top-2 right-2"
+                  className="absolute top-3 right-2"
                 >
                   <Star
-                    className={`w-6 h-6 transition-colors duration-300 ${favorites.includes(vare.name) ? "text-yellow-400" : "text-white"}`}
-                    fill={favorites.includes(vare.name) ? "currentColor" : "none"} />
+                    className={`w-5 h-5 transition-colors duration-300 ${
+                      favorites.includes(vare.name)
+                        ? "text-yellow-400"
+                        : "text-white"
+                    }`}
+                    fill={
+                      favorites.includes(vare.name) ? "currentColor" : "none"
+                    }
+                  />
                 </button>
               </CardContent>
             </Card>
