@@ -92,7 +92,7 @@ export default function VarerPage() {
         {/* Favorite Section */}
         <h2 className="text-lg font-semibold mb-2">Dine Favoritter</h2>
         {favoriteVarer.length > 0 ? (
-          <Carousel className="w-full overflow-hidden pb-2">
+          <Carousel className="w-full overflow-hidden pb-4">
             <CarouselContent className="gap-0.5">
               {favoriteVarer.map((vare: Vare) => (
                 <CarouselItem
@@ -143,16 +143,16 @@ export default function VarerPage() {
         )}
 
         {/* Filter buttons */}
-        <div className="flex gap-4 mb-4 relative">
+        <div className="flex gap-2 mb-2 relative">
           <button
-            className="p-2 rounded-xl bg-navbar shadow-md"
+            className="p-2 rounded-xl bg-card shadow-md"
             onClick={() => setShowDropdown((prev: boolean) => !prev)}
           >
             <Filter className="w-6 h-6" />
           </button>
 
           {showDropdown && (
-            <div className="absolute top-12 left-0 bg-white shadow-lg rounded-lg p-2 z-50">
+            <div className="absolute top-12 left-0 bg-card shadow-lg rounded-lg p-2 z-50">
               <button
                 className="block w-full text-left p-2 hover:bg-selection hover:border-2 hover:p-[6px] rounded-md"
                 onClick={() => {
@@ -175,7 +175,7 @@ export default function VarerPage() {
           )}
 
           <button
-            className="p-2 rounded-xl bg-navbar shadow-md"
+            className="p-2 rounded-xl bg-card shadow-md"
             onClick={toggleSort}
           >
             {sortOrder === "asc" ? (
