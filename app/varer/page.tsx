@@ -5,12 +5,7 @@ import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Star,
-  Filter,
-  ArrowDownWideNarrow,
-  ArrowUpWideNarrow,
-} from "lucide-react";
+import { Star, Filter, ArrowDownWideNarrow } from "lucide-react";
 import NavBar from "@/components/templates/Navbar";
 import {
   Carousel,
@@ -30,7 +25,7 @@ export default function VarerPage() {
   const [search, setSearch] = useState("");
   const [favorites, setFavorites] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>("name");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sortOrder] = useState<"asc" | "desc">("asc");
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
 
